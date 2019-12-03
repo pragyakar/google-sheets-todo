@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pragyakarfuse/google-sheets-reader/issues"
   },
-  "homepage": "https://github.com/pragyakarfuse/google-sheets-reader#readme"
+  "homepage": "https://github.com/pragyakarfuse/google-sheets-reader#readme",
+  "dependencies": {
+    "google-spreadsheet": "^2.0.8"
+  }
 }
