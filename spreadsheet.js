@@ -2,6 +2,7 @@ const GoogleSpreadsheet = require('google-spreadsheet');
 const { promisify } = require('util');
 const creds = require('./client_secret.json');
 const sheet_props = require('./sheet_properties.json');
+const uuid = require('uuid/v4');
 
 getId = (fullId) => {
   const idArray = fullId.split('/');
@@ -13,6 +14,7 @@ printTodo = (todo) => {
   console.log(`ID: ${getId(todo.id)}`);
   console.log(`TODO : ${todo.todo}`);
   console.log(`STATUS : ${todo.status}`);
+  console.log(`ADDED DATE : ${todo.addeddate}`);
   console.log(`---`);
 }
 
@@ -28,12 +30,12 @@ getAllTodos = async () => {
   const sheet = await accessSpreadsheet();
   const rows  = await promisify(sheet.getRows) ({
     offset: sheet_props.header_offset,
-    limit: 5,
     orderBy: 'status'
   });
 
   rows.forEach(todo => {
     printTodo(todo);
+    // console.log(todo);
   });
 
   console.log(`Displaying all ${rows.length} TODOs`);
@@ -70,14 +72,16 @@ getIncompleteTodos = async () => {
 addNewTodo = async (newTodo) => {
   const sheet = await accessSpreadsheet();
   try {
-    await promisify(sheet.addRow)({ todo: newTodo, status: 'FALSE'});
+    await promisify(sheet.addRow)({ uid: uuid(),  todo: newTodo, status: 'FALSE', addeddate: new Date().getTime()});
     console.log('Sucessfullyy added new TODO');
   } catch (error) {
     console.log('Failed to add new TODO');
   }
 }
 
+// TODO: Update TODO
+// TODO: Delete TODO
+// TODO: Set TODO as completed
+
 // getAllTodos();
-// getIncompleteTodos();
-// getCompletedTodos();
-addNewTodo('A new todo');
+addNewTodo('Fresh new todo');
