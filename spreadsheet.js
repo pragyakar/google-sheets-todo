@@ -67,4 +67,17 @@ getIncompleteTodos = async () => {
   console.log(`Displaying ${rows.length} incomplete TODOs`);
 }
 
-getAllTodos();
+addNewTodo = async (newTodo) => {
+  const sheet = await accessSpreadsheet();
+  try {
+    await promisify(sheet.addRow)({ todo: newTodo, status: 'FALSE'});
+    console.log('Sucessfullyy added new TODO');
+  } catch (error) {
+    console.log('Failed to add new TODO');
+  }
+}
+
+// getAllTodos();
+// getIncompleteTodos();
+// getCompletedTodos();
+addNewTodo('A new todo');
