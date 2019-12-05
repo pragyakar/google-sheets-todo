@@ -90,11 +90,24 @@ updateTodo = async (uid, updatedTodo) => {
   }
 }
 
+deleteTodo = async (uid) => {
+  const sheet = await accessSpreadsheet();
+  try {
+    const rows = await promisify(sheet.getRows)({
+      query: `uid = ${uid}`
+    });
 
-// TODO: Update TODO
-// TODO: Delete TODO
+    rows[0].del();
+    console.log('Sucessfully deleted TODO');
+    
+  } catch (error) {
+    console.log(error);    
+  }
+}
+
 // TODO: Set TODO as completed
 
-getAllTodos();
-// addNewTodo('Fresh new todo');
+// getAllTodos();
+// deleteTodo('08f71ed3-47e5-426c-8845-2aa8f5fb4ef2');
+addNewTodo('Fresh new todo');
 // updateTodo('08f71ed3-47e5-426c-8845-2aa8f5fb4ef2', 'Updated TODO');
