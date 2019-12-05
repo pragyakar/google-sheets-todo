@@ -21,19 +21,50 @@ accessSpreadsheet = async () => {
   await promisify(doc.useServiceAccountAuth)(creds);
   const info = await promisify(doc.getInfo)();
   const sheet = info.worksheets[0];
-  
+  return sheet;
+}
+
+getAllTodos = async () => {
+  const sheet = await accessSpreadsheet();
   const rows  = await promisify(sheet.getRows) ({
     offset: sheet_props.header_offset,
-    // limit: 5,
-    // orderBy: 'todo',
-    // query: 'status = TRUE'
+    limit: 5,
+    orderBy: 'status'
   });
 
-  // Print List
   rows.forEach(todo => {
     printTodo(todo);
   });
 
+  console.log(`Displaying all ${rows.length} TODOs`);
 }
 
-accessSpreadsheet();
+getCompletedTodos = async () => {
+  const sheet = await accessSpreadsheet();
+  const rows = await promisify(sheet.getRows) ({
+    offset: sheet_props.header_offset,
+    query: 'status = TRUE'
+  });
+
+  rows.forEach(todo => {
+    printTodo(todo);
+  });
+
+  console.log(`Displaying ${rows.length} completed TODOs`);
+}
+
+getIncompleteTodos = async () => {
+  const sheet = await accessSpreadsheet();
+  const rows = await promisify(sheet.getRows) ({
+    offset: sheet_props.header_offset,
+    query: 'status = FALSE'
+  });
+
+  rows.forEach(todo => {
+    printTodo(todo);
+  });
+
+  console.log(`Displaying ${rows.length} incomplete TODOs`);
+}
+
+getAllTodos();
