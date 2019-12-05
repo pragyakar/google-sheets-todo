@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/pragyakarfuse/google-sheets-reader#readme",
   "dependencies": {
-    "google-spreadsheet": "^2.0.8"
+    "google-spreadsheet": "^2.0.8",
+    "uuid": "^3.3.3"
   }
 }
