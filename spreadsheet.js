@@ -4,14 +4,8 @@ const creds = require('./client_secret.json');
 const sheet_props = require('./sheet_properties.json');
 const uuid = require('uuid/v4');
 
-getId = (fullId) => {
-  const idArray = fullId.split('/');
-  const id = idArray[idArray.length - 1];
-  return id;
-}
-
 printTodo = (todo) => {
-  console.log(`ID: ${getId(todo.id)}`);
+  console.log(`ID: ${todo.uid}`);
   console.log(`TODO : ${todo.todo}`);
   console.log(`STATUS : ${todo.status}`);
   console.log(`ADDED DATE : ${todo.addeddate}`);
@@ -83,5 +77,5 @@ addNewTodo = async (newTodo) => {
 // TODO: Delete TODO
 // TODO: Set TODO as completed
 
-// getAllTodos();
-addNewTodo('Fresh new todo');
+getAllTodos();
+// addNewTodo('Fresh new todo');
