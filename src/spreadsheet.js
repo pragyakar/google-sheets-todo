@@ -1,10 +1,12 @@
-const GoogleSpreadsheet = require('google-spreadsheet');
+import GoogleSpreadsheet from "google-spreadsheet";
+
+// const GoogleSpreadsheet = require('google-spreadsheet');
 const { promisify } = require('util');
-const creds = require('./client_secret.json');
-const sheet_props = require('./sheet_properties.json');
+const creds = require('../client_secret.json');
+const sheet_props = require('../sheet_properties.json');
 const uuid = require('uuid/v4');
 
-printTodo = (todo) => {
+const printTodo = (todo) => {
   console.log(`ID: ${todo.uid}`);
   console.log(`TODO : ${todo.todo}`);
   console.log(`STATUS : ${todo.status}`);
@@ -12,7 +14,7 @@ printTodo = (todo) => {
   console.log(`---`);
 }
 
-accessSpreadsheet = async () => {
+const accessSpreadsheet = async () => {
   const doc = new GoogleSpreadsheet(sheet_props.sheet_id);
   await promisify(doc.useServiceAccountAuth)(creds);
   const info = await promisify(doc.getInfo)();
@@ -20,7 +22,7 @@ accessSpreadsheet = async () => {
   return sheet;
 }
 
-getAllTodos = async () => {
+export const getAllTodos = async () => {
   const sheet = await accessSpreadsheet();
   const rows  = await promisify(sheet.getRows) ({
     offset: sheet_props.header_offset,
@@ -35,7 +37,7 @@ getAllTodos = async () => {
   console.log(`Displaying all ${rows.length} TODOs`);
 }
 
-getCompletedTodos = async () => {
+export const getCompletedTodos = async () => {
   const sheet = await accessSpreadsheet();
   const rows = await promisify(sheet.getRows) ({
     offset: sheet_props.header_offset,
@@ -49,7 +51,7 @@ getCompletedTodos = async () => {
   console.log(`Displaying ${rows.length} completed TODOs`);
 }
 
-getIncompleteTodos = async () => {
+export const getIncompleteTodos = async () => {
   const sheet = await accessSpreadsheet();
   const rows = await promisify(sheet.getRows) ({
     offset: sheet_props.header_offset,
@@ -63,7 +65,7 @@ getIncompleteTodos = async () => {
   console.log(`Displaying ${rows.length} incomplete TODOs`);
 }
 
-addNewTodo = async (newTodo) => {
+export const addNewTodo = async (newTodo) => {
   const sheet = await accessSpreadsheet();
   try {
     await promisify(sheet.addRow)({ uid: uuid(),  todo: newTodo, status: 'FALSE', addeddate: new Date().getTime()});
@@ -73,7 +75,7 @@ addNewTodo = async (newTodo) => {
   }
 }
 
-updateTodo = async (uid, updatedTodo) => {
+export const updateTodo = async (uid, updatedTodo) => {
   const sheet = await accessSpreadsheet();
   try {
     const rows = await promisify(sheet.getRows)({
@@ -90,7 +92,7 @@ updateTodo = async (uid, updatedTodo) => {
   }
 }
 
-deleteTodo = async (uid) => {
+export const deleteTodo = async (uid) => {
   const sheet = await accessSpreadsheet();
   try {
     const rows = await promisify(sheet.getRows)({
@@ -105,7 +107,7 @@ deleteTodo = async (uid) => {
   }
 }
 
-setTodoAsCompleted = async (uid) => {
+export const setTodoAsCompleted = async (uid) => {
   const sheet = await accessSpreadsheet();
   try {
     const rows = await promisify(sheet.getRows)({
@@ -125,8 +127,6 @@ setTodoAsCompleted = async (uid) => {
     console.log(error);
   }
 }
-
-// TODO: Migrate to ES6
 
 getAllTodos();
 // getCompletedTodos();

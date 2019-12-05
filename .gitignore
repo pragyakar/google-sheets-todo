@@ -2,5 +2,7 @@
 
 *.lock
 
+dist/
+
 client_secret.json
 sheet_properties.json

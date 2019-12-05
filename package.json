@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node spreadsheet.js"
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "start": "yarn build && node dist/src/spreadsheet.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,10 @@
   "dependencies": {
     "google-spreadsheet": "^2.0.8",
     "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "rimraf": "^3.0.0"
   }
 }
