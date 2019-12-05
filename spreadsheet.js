@@ -105,9 +105,33 @@ deleteTodo = async (uid) => {
   }
 }
 
-// TODO: Set TODO as completed
+setTodoAsCompleted = async (uid) => {
+  const sheet = await accessSpreadsheet();
+  try {
+    const rows = await promisify(sheet.getRows)({
+      query: `uid = ${uid}`
+    });     
 
-// getAllTodos();
+    rows.forEach(row => {
+      if (row.status === 'FALSE') {
+        row.status = 'TRUE',
+        row.save();
+        console.log('Sucessfully completed', row.todo);
+      } else {
+        console.log('TODO is already completed');
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// TODO: Migrate to ES6
+
+getAllTodos();
+// getCompletedTodos();
+// getIncompleteTodos();
 // deleteTodo('08f71ed3-47e5-426c-8845-2aa8f5fb4ef2');
-addNewTodo('Fresh new todo');
+// addNewTodo('Fresh new todo');
 // updateTodo('08f71ed3-47e5-426c-8845-2aa8f5fb4ef2', 'Updated TODO');
+// setTodoAsCompleted('f151b10c-ff6b-44da-9939-98314324c555');
