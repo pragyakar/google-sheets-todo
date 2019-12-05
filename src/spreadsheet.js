@@ -1,10 +1,8 @@
 import GoogleSpreadsheet from "google-spreadsheet";
-
-// const GoogleSpreadsheet = require('google-spreadsheet');
-const { promisify } = require('util');
-const creds = require('../client_secret.json');
-const sheet_props = require('../sheet_properties.json');
-const uuid = require('uuid/v4');
+import {promisify} from "util";
+import uuid from "uuid/v4";
+import creds from "../client_secret.json";
+import sheet_props from "../sheet_properties.json";
 
 const printTodo = (todo) => {
   console.log(`ID: ${todo.uid}`);
@@ -132,6 +130,6 @@ getAllTodos();
 // getCompletedTodos();
 // getIncompleteTodos();
 // deleteTodo('08f71ed3-47e5-426c-8845-2aa8f5fb4ef2');
-// addNewTodo('Fresh new todo');
+// addNewTodo('Another Fresh new todo');
 // updateTodo('08f71ed3-47e5-426c-8845-2aa8f5fb4ef2', 'Updated TODO');
 // setTodoAsCompleted('f151b10c-ff6b-44da-9939-98314324c555');
